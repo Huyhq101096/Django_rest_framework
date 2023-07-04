@@ -37,8 +37,8 @@ class Post(models.Model):
     # status chi chuaw gia tri trong options
     status = models.CharField(
         max_length=10, choices=options, default='published')
-    objects = models.Manager()
-    postobjects = PostObjects()
+    objects = models.Manager() # default manager
+    postobjects = PostObjects() # custom manager
 
     # Sap xep giam dan theo status published
     class Meta:

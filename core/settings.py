@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'blog',
     'blog_api',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -127,6 +129,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ]
 }
+
+# Permissions:
+# AllowAny : Cho phep nguoi dung truy cap vao API endpoint ma khong can phai xac thuc hoac quyen truy cap dac biet
+# IsAuthenticated : Yeu cau nguoi dung da xac thuc (authenticated) de truy cap vao API endpoint. Nguoi dung chua xac thuc se khong co quyen truy cap.
+# IsAdminUser : Yeu cau nguoi dung la ng dung quan tri vien (superuser) de truy cap vao API endpoint. Cac nguoi dung khac khong co quyen truy cap
+# IsAuthenticatedOrReadOnly : Cho phep nguoi dung da xac thuc truy cap vao tat ca cac phuong thuc HTTP (GET, POST, PUT, DELETE) trong khi cho phep cac yeu cau khong xac thuc chir duoc phep doc
+# DjangoModelPermissions: Kiểm soát quyền truy cập dựa trên quyền truy cập cụ thể của Django Model. Ví dụ: view, add, change, delete. Quyền truy cập được xác định bởi quyền Django Model và nhóm người dùng của người dùng.
+# DjangoObjectPermissions: Kiểm soát quyền truy cập dựa trên quyền truy cập cụ thể của Django Object. Cần phải chỉ định quyền truy cập trên đối tượng Django cụ thể.
+# DjangoModelPermissionsOrAnonReadOnly:  Nguoi dung dang nhap: cap quyen gi thi xai quyen do. Nguoi dung chua dang nhap thi chi duoc doc .
+
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://10.255.10.209:3000',
+]
+
